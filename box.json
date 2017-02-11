@@ -1,0 +1,25 @@
+{
+    "alias": "dix.phar",
+    "chmod": "0755",
+    "files": [
+        "vendor/autoload.php"
+    ],
+    "finder": [
+        {
+            "name": "/(\\.php)$/",
+            "in": "src"
+        },
+        {
+            "name": "/(\\.php|\\.json|\\.yml)$/",
+            "exclude": ["Tests","tests", "docs"],
+            "in": "vendor"
+        }
+    ],
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "compression": "GZ",
+    "main": "src/console.php",
+    "output": "dix.phar",
+    "stub": true
+}

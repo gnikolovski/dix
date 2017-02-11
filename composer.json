@@ -1,0 +1,25 @@
+{
+    "name": "gnikolovski/dix",
+    "description": "Import and export your MySQL databases with ease.",
+    "keywords": ["database", "mysql", "console app"],
+    "type": "project",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Goran Nikolovski",
+            "email": "nikolovski84@gmail.com",
+            "homepage": "http://gorannikolovski.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "symfony/console": "^3.2",
+        "symfony/yaml": "^3.2",
+        "pimple/pimple": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gnikolovski\\": "src"
+        }
+    }
+}
