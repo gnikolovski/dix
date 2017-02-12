@@ -32,16 +32,19 @@ php -d phar.readonly=0 box.phar build
 ```
 
 If you don't want to build the application yourself, you can download pre-built
-file form the following address:
+file from the following address:
 
 ```
-https://gorannikolovski.com/apps/dix.phar
+https://apps.gorannikolovski.com/dix.phar
 ```
 
-If you want to access dix from anywhere on your system place it in your PATH
-and set the appropriate permissions. Example:
+If you want to access dix from anywhere on your system place it in your PATH and 
+set the appropriate permissions. 
+
+Example:
 
 ```
+wget https://apps.gorannikolovski.com/dix.phar
 mv dix.phar /usr/local/bin/dix
 chmod +x /usr/local/bin/dix
 ```
