@@ -35,16 +35,16 @@ If you don't want to build the application yourself, you can download pre-built
 file from the following address:
 
 ```
-https://apps.gorannikolovski.com/dix.phar
+http://apps.gorannikolovski.com/dix.phar
 ```
 
-If you want to access dix from anywhere on your system place it in your PATH and 
-set the appropriate permissions. 
+If you want to access dix from anywhere on your system place it in your PATH and
+set the appropriate permissions.
 
 Example:
 
 ```
-wget https://apps.gorannikolovski.com/dix.phar
+wget http://apps.gorannikolovski.com/dix.phar
 mv dix.phar /usr/local/bin/dix
 chmod +x /usr/local/bin/dix
 ```
