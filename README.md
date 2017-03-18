@@ -255,3 +255,9 @@ potentially lose important data if you overwrite existing database.
 #### Notice
 
 This application is tested only on Linux.
+
+#### AUTHOR
+
+Goran Nikolovski  
+Website: (http://www.gorannikolovski.com)  
+Email: nikolovski84@gmail.com  
