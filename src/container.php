@@ -55,7 +55,7 @@ $container['commands'] = function($container) {
 };
 
 $container['application'] = function($container) {
-    $version = '0.12';
+    $version = '0.1.2';
     $app_info = 'Database Import eXport ' . $version;
     $credits = ' <> with <3 by Goran Nikolovski';
     $website = 'Website: http://gorannikolovski.com';
