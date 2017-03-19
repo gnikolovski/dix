@@ -1,9 +1,9 @@
 <?php
 
-namespace Gnikolovski\Commands;
+namespace App\Commands;
 
 use Symfony\Component\Console\Command\Command;
-use Gnikolovski\Services\LogService;
+use App\Services\LogService;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

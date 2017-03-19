@@ -1,6 +1,6 @@
 <?php
 
-namespace Gnikolovski\Services;
+namespace App\Services;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -33,8 +33,10 @@ class ConfigService
             $this->configContents[$key] = $value;
         }
         else {
-            $value_subkey = reset(array_keys($value));
-            $this->configContents[$key][$value_subkey] = reset(array_values($value));
+            $array_keys = array_keys($value);
+            $value_subkey = reset($array_keys);
+            $array_values = array_values($value);
+            $this->configContents[$key][$value_subkey] = reset($array_values);
         }
     }
 

@@ -1,13 +1,14 @@
 <?php
 
 use Pimple\Container;
-use Gnikolovski\Services\ConfigService;
-use Gnikolovski\Services\LogService;
-use Gnikolovski\Commands\ConfigCommand;
-use Gnikolovski\Commands\LogCommand;
-use Gnikolovski\Commands\ExportCommand;
-use Gnikolovski\Commands\ImportCommand;
+use App\Services\ConfigService;
+use App\Services\LogService;
+use App\Commands\ConfigCommand;
+use App\Commands\LogCommand;
+use App\Commands\ExportCommand;
+use App\Commands\ImportCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Yaml\Yaml;
 
 $container = new Container();
 
@@ -54,7 +55,11 @@ $container['commands'] = function($container) {
 };
 
 $container['application'] = function($container) {
-    $application = new Application('Database Import eXport - <> with <3 by Goran Nikolovski (2017)');
+    $version = '0.12';
+    $app_info = 'Database Import eXport ' . $version;
+    $credits = ' <> with <3 by Goran Nikolovski';
+    $website = 'Website: http://gorannikolovski.com';
+    $application = new Application($app_info . $credits . PHP_EOL . $website);
     $application->addCommands($container['commands']);
     return $application;
 };
