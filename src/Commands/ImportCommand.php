@@ -110,8 +110,8 @@ class ImportCommand extends Command
             return FALSE;
         }
 
-        $db_table_count = shell_exec("mysql --user=$username --password=$password -N -e \"SELECT COUNT(DISTINCT table_name) FROM information_schema.columns WHERE table_schema = '" . $database_name . "'\"");
-        $command = "mysql --user=$username --password=$password $database_name < $database_path";
+        $db_table_count = shell_exec("mysql --user=$username --password=$password -N -e \"SELECT COUNT(DISTINCT table_name) FROM information_schema.columns WHERE table_schema = '" . $database_name . "'\" 2>/dev/null");
+        $command = "mysql --user=$username --password=$password $database_name < $database_path 2>/dev/null";
 
         if ($db_table_count > 0) {
             if (!$force) {
