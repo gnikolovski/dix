@@ -252,6 +252,9 @@ dix import --dbname=DATABASE_NAME --force=true
 Even with this option, you will be asked for a confirmation, because you can
 potentially lose important data if you overwrite existing database.
 
+PROGRAM WILL NOT DROP ALL TABLES BEFORE IMPORTING, IT WILL ONLY OVERWRITE 
+EXISTING TABLES.
+
 #### Notice
 
 This application is tested only on Linux.
