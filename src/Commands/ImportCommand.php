@@ -112,7 +112,7 @@ class ImportCommand extends Command
         }
 
         $db_table_count = shell_exec("mysql --user=$username --password=$password -N -e \"SELECT COUNT(DISTINCT table_name) FROM information_schema.columns WHERE table_schema = '" . $database_name . "'\" 2>/dev/null");
-        $command = "mysql --user=$username --password=$password $database_name < $database_path 2>/dev/null";
+        $command = "mysqldump --user=$username --password=$password --add-drop-table --no-data $database_name 2>/dev/null | grep ^DROP | mysql --user=$username --password=$password $database_name 2>/dev/null && mysql --user=$username --password=$password $database_name < $database_path 2>/dev/null";
 
         if ($db_table_count > 0) {
             if (!$force) {
