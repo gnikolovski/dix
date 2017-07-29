@@ -31,7 +31,8 @@ class ExportCommand extends Command
             ->addOption('dbname', NULL, InputOption::VALUE_REQUIRED, 'Database name')
             ->addOption('user', NULL, InputOption::VALUE_REQUIRED, 'Database username')
             ->addOption('pass', NULL, InputOption::VALUE_REQUIRED, 'Database password')
-            ->addOption('msg', NULL, InputOption::VALUE_REQUIRED, 'Log message');
+            ->addOption('msg', NULL, InputOption::VALUE_REQUIRED, 'Log message')
+            ->addOption('dest', NULL, InputOption::VALUE_REQUIRED, 'Export destination');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -40,6 +41,7 @@ class ExportCommand extends Command
         $username = $input->getOption('user');
         $password = $input->getOption('pass');
         $message = $input->getOption('msg');
+        $destination = $input->getOption('dest');
 
         $error_style = new OutputFormatterStyle('white', 'red');
         $output->getFormatter()->setStyle('error', $error_style);
@@ -50,6 +52,15 @@ class ExportCommand extends Command
             $formattedBlock = $formatter->formatBlock(array('Error!', 'Directory path not defined. Use config command to set export location'), 'error', true);
             $output->writeln($formattedBlock);
             return FALSE;
+        }
+
+        if ($destination == 'aws') {
+            $aws_path = $this->configService->get('aws_path');
+            if (!$aws_path) {
+                $formattedBlock = $formatter->formatBlock(array('Error!', 'AWS path not defined. Use config command to set AWS path'), 'error', true);
+                $output->writeln($formattedBlock);
+                return FALSE;
+            }
         }
 
         if (!$database_name) {
@@ -69,7 +80,7 @@ class ExportCommand extends Command
         }
 
         if ($username && $password) {
-            $this->exportDatabase($database_name, $username, $password, $message, $export_directory, $output);
+            $this->exportDatabase($database_name, $username, $password, $message, $destination, $export_directory, $output);
         }
         else {
             $formattedBlock = $formatter->formatBlock(array('Error!', 'Database credentials not found'), 'error', true);
@@ -77,7 +88,7 @@ class ExportCommand extends Command
         }
     }
 
-    private function exportDatabase($database_name, $username, $password, $message, $export_directory, $output)
+    private function exportDatabase($database_name, $username, $password, $message, $destination, $export_directory, $output)
     {
         $info_style = new OutputFormatterStyle('black', 'green');
         $error_style = new OutputFormatterStyle('white', 'red');
@@ -90,6 +101,9 @@ class ExportCommand extends Command
         if (!file_exists($export_directory_path)) {
             mkdir($export_directory_path);
         }
+
+        $aws_path_directory = $this->configService->get('aws_path');
+
         $database_filename = $export_directory_path . '/' . $database_name . '-' . $hash . '.sql';
         if (file_exists($database_filename)) {
             $formattedBlock = $formatter->formatBlock(array('Error!', 'Sql file already exists. Export aborted'), 'error', true);
@@ -99,7 +113,11 @@ class ExportCommand extends Command
         $command = "mysqldump --user=$username --password=$password $database_name 2>&1 > $database_filename";
         $result = shell_exec($command);
 
-        if (strpos($result, 'error') !== FALSE) {
+        if ($destination = "aws") {
+            $result = $this->uploadToAWS($database_filename, TRUE);
+        }
+
+        if (strpos($result, 'error') !== FALSE || strpos($result, 'failed') !== FALSE) {
             $formattedBlock = $formatter->formatBlock(array('Error!', trim($result)), 'error', true);
             $output->writeln($formattedBlock);
             if (file_exists($database_filename)) {
@@ -111,10 +129,24 @@ class ExportCommand extends Command
             $output->writeln($formattedBlock);
             $this->logService->set($hash, [
                 'database' => $database_name,
-                'path' => $database_filename,
+                'path' => strtolower($destination) == 'aws' ? $aws_path_directory . '/' . basename($database_filename) : $database_filename,
                 'date' => time(),
                 'message' => $message,
+                'destination' => $destination ? $destination : 'local',
             ]);
         }
+    }
+
+    private function uploadToAWS($database_filename, $delete = FALSE)
+    {
+        $aws_path_directory = rtrim($this->configService->get('aws_path'), '/') . '/';
+        $command = "aws s3 cp $database_filename $aws_path_directory 2>/dev/null";
+        $result = shell_exec($command);
+
+        if ($delete && file_exists($database_filename)) {
+            unlink($database_filename);
+        }
+
+        return $result;
     }
 }

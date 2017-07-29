@@ -28,6 +28,7 @@ class LogCommand extends Command
             ->addOption('sort', NULL, InputOption::VALUE_REQUIRED, 'Sort results')
             ->addOption('lim', NULL, InputOption::VALUE_REQUIRED, 'Limit number of results')
             ->addOption('dbname', NULL, InputOption::VALUE_REQUIRED, 'Filter results by database name')
+            ->addOption('dest', NULL, InputOption::VALUE_REQUIRED, 'Filter results by destination')
             ->addOption('date', NULL, InputOption::VALUE_REQUIRED, 'Filter results by date')
             ->addOption('msg', NULL, InputOption::VALUE_REQUIRED, 'Filter results by message');
     }
@@ -37,6 +38,7 @@ class LogCommand extends Command
         $sort = $input->getOption('sort');
         $limit = $input->getOption('lim');
         $database_name = $input->getOption('dbname');
+        $destination = $input->getOption('dest');
         $date = $input->getOption('date');
         $message = $input->getOption('msg');
 
@@ -59,6 +61,7 @@ class LogCommand extends Command
         $item_count = 0;
         foreach ($log_contents as $key => $value) {
             $database_value = isset($value['database']) ? $value['database'] : NULL;
+            $destination_value = isset($value['destination']) ? $value['destination'] : NULL;
             $path_value = isset($value['path']) ? $value['path'] : NULL;
             $date_value = isset($value['date']) ? $value['date'] : NULL;
             $message_value = isset($value['message']) ? $value['message'] : NULL;
@@ -68,6 +71,10 @@ class LogCommand extends Command
             }
             $database_filter = $this->filterByText($database_name, $database_value);
             if ($database_filter) {
+                continue;
+            }
+            $dest_filter = $this->filterByText($destination, $destination_value);
+            if ($dest_filter) {
                 continue;
             }
             $date_filter = $this->filterByDate($date, $date_value);
@@ -81,11 +88,12 @@ class LogCommand extends Command
             $item_count++;
 
             $output->writeln('<comment>' . $key . '</comment>');
-            $output->writeln('Database: ' . $database_value);
-            $output->writeln('Path:     ' . $path_value);
-            $output->writeln('Date:     ' . date('Y.m.d H:i:s', $date_value));
+            $output->writeln('Database:    ' . $database_value);
+            $output->writeln('Path:        ' . $path_value);
+            $output->writeln('Destination: ' . $this->buildDestination($destination_value));
+            $output->writeln('Date:        ' . date('Y.m.d H:i:s', $date_value));
             if ($message_value) {
-                $output->writeln('Message:  ' . $message_value);
+                $output->writeln('Message:     ' . $message_value);
             }
             else {
                 $output->writeln('Message:  -' . $message_value);
@@ -114,5 +122,13 @@ class LogCommand extends Command
             }
         }
         return FALSE;
+    }
+
+    private function buildDestination($destination_value)
+    {
+        if ($destination_value) {
+            return $destination_value;
+        }
+        return 'local';
     }
 }

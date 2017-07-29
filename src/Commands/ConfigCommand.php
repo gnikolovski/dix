@@ -27,6 +27,7 @@ class ConfigCommand extends Command
             ->setAliases(['cf'])
             ->setDescription('Get and set application configuration')
             ->addOption('dir', NULL, InputOption::VALUE_REQUIRED, 'Backup directory')
+            ->addOption('aws-path', NULL, InputOption::VALUE_REQUIRED, 'Amazon Web Services path')
             ->addOption('dbname', NULL, InputOption::VALUE_REQUIRED, 'Database name')
             ->addOption('user', NULL, InputOption::VALUE_OPTIONAL, 'Database username')
             ->addOption('pass', NULL, InputOption::VALUE_OPTIONAL, 'Database password');
@@ -35,17 +36,25 @@ class ConfigCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $directory = $input->getOption('dir');
+        $aws_path = $input->getOption('aws-path');
         $database_name = $input->getOption('dbname');
         $username = $input->getOption('user');
         $password = $input->getOption('pass');
 
-        if (!$directory && !$database_name && !$username && !$password) {
+        if (!$directory && !$aws_path && !$database_name && !$username && !$password) {
             $config_directory = $this->configService->get('directory');
             if ($config_directory) {
                 $output->writeln('<info>Directory:</info>' . $config_directory);
             }
             else {
                 $output->writeln('<info>Directory:</info><error>DIRECTORY NOT CONFIGURED</error>');
+            }
+            $aws_path_directory = $this->configService->get('aws_path');
+            if ($aws_path_directory) {
+                $output->writeln('<info>AWS path:</info>' . $aws_path_directory);
+            }
+            else {
+                $output->writeln('<info>AWS path:</info><error>PATH NOT CONFIGURED</error>');
             }
 
             $config_databases = $this->configService->get('databases');
@@ -78,6 +87,10 @@ class ConfigCommand extends Command
         $updated = FALSE;
         if ($directory && file_exists($directory)) {
             $this->configService->set('directory', rtrim($directory, '/'));
+            $updated = TRUE;
+        }
+        if ($aws_path) {
+            $this->configService->set('aws_path', rtrim($aws_path, '/'));
             $updated = TRUE;
         }
         if ($database_name && !$username && !$password) {

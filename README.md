@@ -92,6 +92,14 @@ following command:
 dix config --dir=path/to/directory
 ```
 
+To set the upload path to your AWS bucket use the following command:
+
+```
+dix config --aws-path=s3://backup/databases/
+```
+
+where s3://backup/databases/ is a sample path.
+
 If you have a different credentials for every database on your server then you
 must set credentials for each. To set a specific database credentials use:
 
@@ -121,7 +129,7 @@ dix config --dbname=DATABASE_NAME
 YOU DON'T HAVE TO SET DATABASE CREDENTIALS HERE - YOU CAN SPECIFY USERNAME AND
 PASSWORD ON EACH EXPORT IF YOU WANT TO AVOID SAVING SENSITIVE DATA. Please keep
 in mind that if you decide to save passwords, they will be stored in a plain
-text Yml file.
+text Yml file in your home directory.
 
 ### 2. Log
 
@@ -162,6 +170,16 @@ Filter by database name:
 dix log --dbname=DATABASE_NAME
 ```
 
+Filter by export destination (destination can be local or aws):
+
+```
+dix log --dest=local
+```
+
+```
+dix log --dest=aws
+```
+
 Filter by date:
 
 ```
@@ -169,6 +187,12 @@ dix log --date=DATE
 ```
 
 Date should be in one of the following formats: Y.m.d, Y-m-d or Ymd
+
+Filtery by message:
+
+```
+dix log --msg="MESSAGE TEXT"
+```
 
 Filtery by message:
 
@@ -212,6 +236,17 @@ dix export --dbname=DATABASE_NAME --msg="EXPORT MESSAGE"
 Multiword export message should be enclosed in the quotes. Every export has
 unique ID which can later be used when importing database. You can find this ID
 in the log.
+
+dix can upload a database to your AWS bucket. You must install the AWS cli app 
+if you want to use this option. Find out more info about AWS cli here:
+
+https://aws.amazon.com/cli/
+
+To upload a database to your AWS bucket use the following command:
+
+```
+dix export --dbname=DATABASE_NAME --dest="aws"
+```
 
 ### 4. Import
 
