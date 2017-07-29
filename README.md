@@ -31,6 +31,12 @@ command to build dix:
 php -d phar.readonly=0 box.phar build
 ```
 
+and to build it, move it to your PATH and set permissions use the following one line command:
+
+```
+php -d phar.readonly=0 box.phar build && mv dix.phar /usr/local/bin/dix && chmod +x /usr/local/bin/dix
+```
+
 If you don't want to build the application yourself, you can download pre-built
 file from the following address:
 
@@ -251,9 +257,6 @@ dix import --dbname=DATABASE_NAME --force=true
 
 Even with this option, you will be asked for a confirmation, because you can
 potentially lose important data if you overwrite existing database.
-
-PROGRAM WILL NOT DROP ALL TABLES BEFORE IMPORTING, IT WILL ONLY OVERWRITE 
-EXISTING TABLES.
 
 #### Notice
 
