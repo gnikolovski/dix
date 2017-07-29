@@ -9,7 +9,7 @@ to leverage existing well known software.
 Using dix is easy, and you should be ready to use it after reading this whole
 document. dix will help you to easily backup database and restore it later.
 It is designed for web developers who work with PHP frameworks or content
-managment systems. Before doing something that might damage your database you
+management systems. Before doing something that might damage your database you
 can easily create a backup, and then start to experiment all you want without
 worrying about your data. Of course, you can find another creative uses for this
 application.
@@ -54,6 +54,12 @@ wget http://apps.gorannikolovski.com/dix.phar
 mv dix.phar /usr/local/bin/dix
 chmod +x /usr/local/bin/dix
 ```
+
+## Requirements
+
+**mysql** and **mysqldump** command line tools are required. If you want to 
+upload your databases to Amazon Web Services, then you also need to install
+**AWS command** line tool.
 
 ## Commands
 
