@@ -1,4 +1,4 @@
 src/*.yml
 vendor
-.remote-sync.json
+.idea
 box.phar
