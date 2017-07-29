@@ -63,7 +63,8 @@ class ImportCommand extends Command
         $this->importDatabase($username, $password, $database_name, $log_id, $force, $input, $output);
     }
 
-    private function importDatabase($username, $password, $database_name, $log_id, $force, $input, $output) {
+    private function importDatabase($username, $password, $database_name, $log_id, $force, $input, $output)
+    {
         $info_style = new OutputFormatterStyle('black', 'green');
         $error_style = new OutputFormatterStyle('white', 'red');
         $output->getFormatter()->setStyle('info', $info_style);
@@ -136,7 +137,8 @@ class ImportCommand extends Command
         }
     }
 
-    private function getDatabaseFromLogId($log_id, $output) {
+    private function getDatabaseFromLogId($log_id, $output)
+    {
         $export_log = $this->logService->get();
         $contains_count = 0;
         $database_name = NULL;
@@ -168,7 +170,8 @@ class ImportCommand extends Command
         ];
     }
 
-    private function getLastDatabasePath($database_name) {
+    private function getLastDatabasePath($database_name)
+    {
         $log = $this->logService->get();
         $log = array_reverse($log);
         foreach ($log as $key => $value) {
@@ -179,7 +182,8 @@ class ImportCommand extends Command
         return NULL;
     }
 
-    private function getCredentialsFromConfig($database_name) {
+    private function getCredentialsFromConfig($database_name)
+    {
         $config_databases = $this->configService->get('databases');
         $username = isset($config_databases[$database_name]['username']) ? $config_databases[$database_name]['username'] :
                     (isset($config_databases['*']['username']) ? $config_databases['*']['username'] : NULL);

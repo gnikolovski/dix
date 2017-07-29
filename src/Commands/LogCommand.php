@@ -94,14 +94,16 @@ class LogCommand extends Command
         }
     }
 
-    private function filterByText($needle, $haystack) {
+    private function filterByText($needle, $haystack)
+    {
         if ($needle && strpos($haystack, $needle) === FALSE) {
             return TRUE;
         }
         return FALSE;
     }
 
-    private function filterByDate($date, $date_log) {
+    private function filterByDate($date, $date_log)
+    {
         if ($date) {
             $date_log_obj = new \Datetime();
             $date_log_obj->setTimestamp($date_log);

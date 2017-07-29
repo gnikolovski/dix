@@ -77,7 +77,8 @@ class ExportCommand extends Command
         }
     }
 
-    private function exportDatabase($database_name, $username, $password, $message, $export_directory, $output) {
+    private function exportDatabase($database_name, $username, $password, $message, $export_directory, $output)
+    {
         $info_style = new OutputFormatterStyle('black', 'green');
         $error_style = new OutputFormatterStyle('white', 'red');
         $output->getFormatter()->setStyle('info', $info_style);
