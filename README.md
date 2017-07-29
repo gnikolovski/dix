@@ -254,6 +254,15 @@ To upload a database to your AWS bucket use the following command:
 dix export --dbname=DATABASE_NAME --dest="aws"
 ```
 
+dix provides an option to delete all data from tables that contain a word cache 
+in their names. It is usually a good idea to delete all data from cache tables, 
+because that data is not needed and it just takes up a space. To clear cache 
+just use the following command:
+
+```
+dix export --dbname=DATABASE_NAME --cc=true
+```
+
 ### 4. Import
 
 You can import database by specifying dbname or export ID. If you specify the

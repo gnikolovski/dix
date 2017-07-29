@@ -32,7 +32,8 @@ class ExportCommand extends Command
             ->addOption('user', NULL, InputOption::VALUE_REQUIRED, 'Database username')
             ->addOption('pass', NULL, InputOption::VALUE_REQUIRED, 'Database password')
             ->addOption('msg', NULL, InputOption::VALUE_REQUIRED, 'Log message')
-            ->addOption('dest', NULL, InputOption::VALUE_REQUIRED, 'Export destination');
+            ->addOption('dest', NULL, InputOption::VALUE_REQUIRED, 'Export destination')
+            ->addOption('cc', NULL, InputOption::VALUE_REQUIRED, 'Clear cache tables');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -42,6 +43,7 @@ class ExportCommand extends Command
         $password = $input->getOption('pass');
         $message = $input->getOption('msg');
         $destination = $input->getOption('dest');
+        $clear_cache = $input->getOption('cc');
 
         $error_style = new OutputFormatterStyle('white', 'red');
         $output->getFormatter()->setStyle('error', $error_style);
@@ -80,7 +82,7 @@ class ExportCommand extends Command
         }
 
         if ($username && $password) {
-            $this->exportDatabase($database_name, $username, $password, $message, $destination, $export_directory, $output);
+            $this->exportDatabase($database_name, $username, $password, $message, $destination, $clear_cache, $export_directory, $output);
         }
         else {
             $formattedBlock = $formatter->formatBlock(array('Error!', 'Database credentials not found'), 'error', true);
@@ -88,7 +90,7 @@ class ExportCommand extends Command
         }
     }
 
-    private function exportDatabase($database_name, $username, $password, $message, $destination, $export_directory, $output)
+    private function exportDatabase($database_name, $username, $password, $message, $destination, $clear_cache, $export_directory, $output)
     {
         $info_style = new OutputFormatterStyle('black', 'green');
         $error_style = new OutputFormatterStyle('white', 'red');
@@ -110,10 +112,16 @@ class ExportCommand extends Command
             $output->writeln($formattedBlock);
             return FALSE;
         }
-        $command = "mysqldump --user=$username --password=$password $database_name 2>&1 > $database_filename";
+
+        if ($clear_cache) {
+            $command = "mysql --user=$username --password=$password --execute=\"SELECT concat('TRUNCATE TABLE ', TABLE_NAME, ';') FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$database_name' AND TABLE_NAME LIKE '%cache%'\" 2>/dev/null | sed 1d | mysql --user=$username --password=$password $database_name 2>/dev/null && mysqldump --user=$username --password=$password $database_name 2>&1 > $database_filename";
+        }
+        else {
+            $command = "mysqldump --user=$username --password=$password $database_name 2>&1 > $database_filename";
+        }
         $result = shell_exec($command);
 
-        if ($destination = "aws") {
+        if ($destination == "aws") {
             $result = $this->uploadToAWS($database_filename, $database_name, TRUE);
         }
 
