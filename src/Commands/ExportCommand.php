@@ -114,7 +114,7 @@ class ExportCommand extends Command
         $result = shell_exec($command);
 
         if ($destination = "aws") {
-            $result = $this->uploadToAWS($database_filename, TRUE);
+            $result = $this->uploadToAWS($database_filename, $database_name, TRUE);
         }
 
         if (strpos($result, 'error') !== FALSE || strpos($result, 'failed') !== FALSE) {
@@ -137,9 +137,9 @@ class ExportCommand extends Command
         }
     }
 
-    private function uploadToAWS($database_filename, $delete = FALSE)
+    private function uploadToAWS($database_filename, $database_name, $delete = FALSE)
     {
-        $aws_path_directory = rtrim($this->configService->get('aws_path'), '/') . '/';
+        $aws_path_directory = rtrim($this->configService->get('aws_path'), '/') . '/' . $database_name . '/';
         $command = "aws s3 cp $database_filename $aws_path_directory 2>/dev/null";
         $result = shell_exec($command);
 
