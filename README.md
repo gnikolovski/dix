@@ -318,7 +318,8 @@ vendor/bin/phpunit
 
 #### Notice
 
-This application is tested only on Linux.
+This application is tested only on Linux, and it comes with no warranty 
+whatsoever, either implied or expressed.
 
 #### AUTHOR
 
