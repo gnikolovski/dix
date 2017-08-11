@@ -43,7 +43,6 @@ class ConfigService
     public function remove($key, $value)
     {
         $key = strtolower($key);
-        $value = strtolower($value);
         if (isset($this->configContents[$key][$value])) {
             unset($this->configContents[$key][$value]);
             return TRUE;
