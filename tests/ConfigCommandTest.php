@@ -47,7 +47,7 @@ class ConfigCommandTest extends TestCase
     {
         // Set export directory.
         if (!file_exists(self::$testExportDirPath)) {
-            mkdir(self::$testExportDirPath);
+            mkdir(self::$testExportDirPath, 0777, true);
         }
         $result = shell_exec('dix config --dir=' . self::$testExportDirPath);
         $config = Yaml::parse(file_get_contents(self::$configFilePath));
@@ -57,7 +57,7 @@ class ConfigCommandTest extends TestCase
 
         // Update export directory.
         if (!file_exists(self::$exportDirPath)) {
-            mkdir(self::$exportDirPath);
+            mkdir(self::$exportDirPath, 0777, true);
         }
         $result = shell_exec('dix config --dir=' . self::$exportDirPath);
         $config = Yaml::parse(file_get_contents(self::$configFilePath));
