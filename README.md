@@ -1,5 +1,7 @@
 # dix (Database Import eXport)
 
+[![Build Status](https://travis-ci.org/gnikolovski/dix.svg?branch=master)](https://travis-ci.org/gnikolovski/dix)
+
 dix is a console application for exporting and importing MySQL databases. It
 is written in PHP, and it is based on Symfony console component. For database
 operations it uses mysql command line tool, so from all this it is quite clear
