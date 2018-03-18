@@ -1,14 +1,14 @@
 <?php
 
-use Pimple\Container;
-use App\Services\ConfigService;
-use App\Services\LogService;
 use App\Commands\ConfigCommand;
-use App\Commands\LogCommand;
+use App\Commands\DropTablesCommand;
 use App\Commands\ExportCommand;
 use App\Commands\ImportCommand;
+use App\Commands\LogCommand;
+use App\Services\ConfigService;
+use App\Services\LogService;
+use Pimple\Container;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Yaml\Yaml;
 
 $container = new Container();
 
@@ -45,17 +45,22 @@ $container['command.import'] = function($container) {
     return new ImportCommand($container['config.service'], $container['log.service']);
 };
 
+$container['command.drop-tables'] = function($container) {
+    return new DropTablesCommand($container['config.service']);
+};
+
 $container['commands'] = function($container) {
     return [
         $container['command.config'],
         $container['command.log'],
         $container['command.export'],
         $container['command.import'],
+        $container['command.drop-tables'],
     ];
 };
 
 $container['application'] = function($container) {
-    $version = '0.1.2';
+    $version = '0.2.0';
     $app_info = 'Database Import eXport ' . $version;
     $credits = ' <> with <3 by Goran Nikolovski';
     $website = 'Website: http://gorannikolovski.com';
