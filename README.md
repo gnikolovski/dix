@@ -310,6 +310,14 @@ dix import --dbname=DATABASE_NAME --force=true
 Even with this option, you will be asked for a confirmation, because you can
 potentially lose important data if you overwrite existing database.
 
+### 5. Drop Tables
+
+To drop all tables in a database you can use the following command:
+
+```
+dix drop-tables --dbname=DATABASE_NAME --user=DATABASE_USERNAME --pass=DATABASE_PASSWORD
+```
+
 #### Tests
 
 To run tests CD to the root of the app and execute the following command:
