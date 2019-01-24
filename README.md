@@ -54,6 +54,8 @@ Example:
 
 ```
 wget http://gorannikolovski.com/dix.phar.zip
+unzip dix.phar.zip
+rm dix.phar.zip
 mv dix.phar /usr/local/bin/dix
 chmod +x /usr/local/bin/dix
 ```
