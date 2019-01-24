@@ -23,6 +23,7 @@ box.json file which contains app definition. You can build it yourself by
 downloading box.phar file and executing:
 
 ```
+composer install
 php box.phar build
 ```
 
