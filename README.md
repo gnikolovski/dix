@@ -53,7 +53,7 @@ set the appropriate permissions.
 Example:
 
 ```
-wget http://apps.gorannikolovski.com/dix.phar
+wget http://gorannikolovski.com/dix.phar.zip
 mv dix.phar /usr/local/bin/dix
 chmod +x /usr/local/bin/dix
 ```
