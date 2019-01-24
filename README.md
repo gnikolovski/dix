@@ -44,7 +44,7 @@ If you don't want to build the application yourself, you can download pre-built
 file from the following address:
 
 ```
-http://gorannikolovski.com/dix.phar
+http://gorannikolovski.com/dix.phar.zip
 ```
 
 If you want to access dix from anywhere on your system place it in your PATH and
