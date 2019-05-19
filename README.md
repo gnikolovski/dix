@@ -44,7 +44,7 @@ If you don't want to build the application yourself, you can download pre-built
 file from the following address:
 
 ```
-http://gorannikolovski.com/dix.phar.zip
+https://files.goran.dev/files/dix.phar.zip
 ```
 
 If you want to access dix from anywhere on your system place it in your PATH and
@@ -53,7 +53,7 @@ set the appropriate permissions.
 Example:
 
 ```
-wget http://gorannikolovski.com/dix.phar.zip
+wget https://files.goran.dev/files/dix.phar.zip
 unzip dix.phar.zip
 rm dix.phar.zip
 mv dix.phar /usr/local/bin/dix
