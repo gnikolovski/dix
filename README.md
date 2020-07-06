@@ -337,5 +337,5 @@ whatsoever, either implied or expressed.
 #### AUTHOR
 
 Goran Nikolovski  
-Website: (http://www.gorannikolovski.com)  
-Email: nikolovski84@gmail.com  
+Website: (https://gorannikolovski.com/)  
+Email: goran@gorannikolovski.com  
